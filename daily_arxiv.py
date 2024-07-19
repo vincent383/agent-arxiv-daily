@@ -100,13 +100,17 @@ prompt_formate = """
 ## task
 请你将上述论文摘要翻译为中文，不要输出其他任何无关内容，注意输出的内容中不能包含"|"字符
 """
-
+from http import HTTPStatus
 def llm_generate_summary(prompt):
     msg = prompt_formate.format(context=prompt)
-    from http import HTTPStatus
+
+    messages = [
+        {'role': 'user', 'content': msg}]
+  
+    
     responses = dashscope.Generation.call(
         'qwen2-72b-instruct',
-        messages=msg,
+        messages=messages,
         seed=1234,  # set the random seed, optional, default to 1234 if not set
         result_format='message',  # set the result to be "message"  format.
         stream=True,
