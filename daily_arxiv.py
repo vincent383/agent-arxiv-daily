@@ -107,28 +107,24 @@ def llm_generate_summary(prompt):
 
     messages = [
         {'role': 'user', 'content': msg}]
-  
-    
-    responses = dashscope.Generation.call(
+    full_content = ''
+    response = dashscope.Generation.call(
         'qwen2-72b-instruct',
         messages=messages,
-        seed=random.randint(1, 10000),  # set the random seed, optional, default to 1234 if not set
-        result_format='message'  # set the result to be "message"  format.
-        #stream=False,
-        #output_in_full=True  # get streaming output incrementally
+        # set the random seed, optional, default to 1234 if not set
+        seed=random.randint(1, 10000),
+        result_format='message',  # set the result to be "message" format.
     )
-    full_content = ''
-    for response in responses:
-        if response.status_code == HTTPStatus.OK:
-            full_content += response.output.choices[0]['message']['content']
-            print(response)
-        else:
-            print('Request id: %s, Status code: %s, error code: %s, error message: %s' % (
-                response.request_id, response.status_code,
-                response.code, response.message
-            ))
-    print('Full content: \n' + full_content)
+    if response.status_code == HTTPStatus.OK:
+     
+        full_content = response
+    else:
+        print('Request id: %s, Status code: %s, error code: %s, error message: %s' % (
+            response.request_id, response.status_code,
+            response.code, response.message
+        ))
     return full_content
+  
 
 def llm_generate_summary2(prompt):
 
