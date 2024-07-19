@@ -101,8 +101,31 @@ prompt_formate = """
 请你将上述论文摘要翻译为中文，不要输出其他任何无关内容，注意输出的内容中不能包含"|"字符
 """
 
-
 def llm_generate_summary(prompt):
+    msg = prompt_formate.format(context=prompt)
+    from http import HTTPStatus
+    responses = dashscope.Generation.call(
+        'qwen2-72b-instruct',
+        messages=msg,
+        seed=1234,  # set the random seed, optional, default to 1234 if not set
+        result_format='message',  # set the result to be "message"  format.
+        stream=True,
+        output_in_full=True  # get streaming output incrementally
+    )
+    full_content = ''
+    for response in responses:
+        if response.status_code == HTTPStatus.OK:
+            full_content += response.output.choices[0]['message']['content']
+            print(response)
+        else:
+            print('Request id: %s, Status code: %s, error code: %s, error message: %s' % (
+                response.request_id, response.status_code,
+                response.code, response.message
+            ))
+    print('Full content: \n' + full_content)
+    return full_content
+
+def llm_generate_summary2(prompt):
 
     msg = prompt_formate.format(context=prompt)
     from http import HTTPStatus
