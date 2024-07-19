@@ -23,4 +23,4 @@ keywords:
     "llm":
         filters: ["Large Language Model"]
     "rag":
-        filters: ["rag"]
+        filters: ["Retrieval Augmented Generation"]
