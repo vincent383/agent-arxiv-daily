@@ -117,7 +117,7 @@ def llm_generate_summary(prompt):
     )
     if response.status_code == HTTPStatus.OK:
      
-        full_content = response
+        full_content = response.output.choices[0]['message']['content']
     else:
         print('Request id: %s, Status code: %s, error code: %s, error message: %s' % (
             response.request_id, response.status_code,
