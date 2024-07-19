@@ -8,6 +8,7 @@ import argparse
 import datetime
 import requests
 import dashscope
+import random
 
 dashscope.api_key = os.environ.get("DASHSCOPE_API_KEY")
 
@@ -111,7 +112,7 @@ def llm_generate_summary(prompt):
     responses = dashscope.Generation.call(
         'qwen2-72b-instruct',
         messages=messages,
-        seed=1234,  # set the random seed, optional, default to 1234 if not set
+        seed=random.randint(1, 10000),  # set the random seed, optional, default to 1234 if not set
         result_format='message',  # set the result to be "message"  format.
         stream=True,
         output_in_full=True  # get streaming output incrementally
