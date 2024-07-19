@@ -131,7 +131,7 @@ def llm_generate_summary2(prompt):
     from http import HTTPStatus
 
     response = dashscope.Generation.call(
-        model=dashscope.Generation.Models.qwen2-72b-instruct,
+        model=dashscope.Generation.Models.turbo,
         prompt=msg
     )
     # 如果调用成功，则打印模型的输出
